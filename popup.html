@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 300px;
+      padding: 15px;
+      font-family: Arial, sans-serif;
+    }
+
+    h3 {
+      margin: 0 0 10px;
+      color: #333;
+    }
+
+    .current-time {
+      font-size: 24px;
+      color: #4285f4;
+      margin-bottom: 15px;
+      font-family: monospace;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .field {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+      color: #555;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #4285f4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background: #3367d6;
+    }
+
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+    }
+
+    #stopBtn {
+      background: #ea4335;
+      margin-top: 8px;
+    }
+
+    #stopBtn:hover {
+      background: #c5221f;
+    }
+
+    #result {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #666;
+      min-height: 20px;
+    }
+
+    .status {
+      color: #4285f4;
+    }
+
+    .error {
+      color: #ea4335;
+    }
+  </style>
+</head>
+
+<body>
+  <h3>EasyTrader Auto Clicker</h3>
+  <div id="currentTime" class="current-time">--:--:--</div>
+
+  <div class="field">
+    <label>Start Time (HH:MM:SS)</label>
+    <input type="time" id="startTime" value="08:44:55" step="1">
+  </div>
+
+  <div class="field">
+    <label>Wait (ms)</label>
+    <input type="number" id="waitMs" value="250" min="0">
+  </div>
+
+  <div class="field">
+    <label>Loop Count</label>
+    <input type="number" id="loopCount" value="40" min="1">
+  </div>
+
+  <button id="btn">Start</button>
+  <button id="stopBtn" disabled>Stop</button>
+  <div id="result"></div>
+  <script src="popup.js"></script>
+</body>
+
+</html>
