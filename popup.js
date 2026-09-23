@@ -27,13 +27,13 @@ btn.addEventListener('click', async () => {
   }
 
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  
+
   if (!tab.url.startsWith('https://d.easytrader.ir/')) {
     result.textContent = 'Only works on d.easytrader.ir';
     result.className = 'error';
     return;
   }
-  
+
   btn.disabled = true;
   stopBtn.disabled = false;
   result.textContent = 'Injecting...';
@@ -59,9 +59,9 @@ btn.addEventListener('click', async () => {
 
 stopBtn.addEventListener('click', async () => {
   if (!injectedRunId) return;
-  
+
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  
+
   try {
     await chrome.scripting.executeScript({
       target: { tabId: tab.id },
@@ -74,7 +74,7 @@ stopBtn.addEventListener('click', async () => {
     result.textContent = 'Error stopping: ' + e.message;
     result.className = 'error';
   }
-  
+
   btn.disabled = false;
   stopBtn.disabled = true;
 });
@@ -82,20 +82,6 @@ stopBtn.addEventListener('click', async () => {
 function runAutoClicker(START_TIME, WAIT_MS, LOOP, runId) {
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-  async function checkFetch() {
-    try {
-      const elements = document.querySelectorAll('[d="M9.45899 5C8.04318 5 6.65672 5.40374 5.46225 6.16385L4.34334 6.87589C3.72935 7.26661 3.65051 8.13229 4.18381 8.6275L8.57332 12.7035L19.0212 5H9.45899ZM19.9857 6.77367L9.61737 14.4185L10.7951 19.7182C10.9662 20.4885 11.8634 20.8398 12.5122 20.3907L14.1561 19.2525C15.4589 18.3506 16.4399 17.0566 16.9565 15.5586L19.9857 6.77367ZM7.59133 14.5209L2.82291 10.0931C1.32965 8.70649 1.55041 6.28259 3.26959 5.18856L4.3885 4.47653C5.90387 3.51221 7.66281 3 9.45899 3H20.5194C21.9314 3 22.923 4.39082 22.4627 5.72565L18.8472 16.2106C18.1919 18.111 16.9473 19.7527 15.2946 20.8969L13.6506 22.0351C11.834 23.2927 9.32199 22.3089 8.84269 20.152L7.59133 14.5209Z"]');
-
-      elements.forEach(element => {
-        element.parentElement.parentElement.click();
-      });
-
-      return false;
-    } catch (error) {
-      console.log("Fetch error:", error);
-      return false;
-    }
-  }
 
   async function waitUntil(time, runId) {
     while (true) {
@@ -135,14 +121,15 @@ function runAutoClicker(START_TIME, WAIT_MS, LOOP, runId) {
         return;
       }
 
-      const shouldStop = await checkFetch();
+      try {
+        const elements = document.querySelectorAll('[d="M9.45899 5C8.04318 5 6.65672 5.40374 5.46225 6.16385L4.34334 6.87589C3.72935 7.26661 3.65051 8.13229 4.18381 8.6275L8.57332 12.7035L19.0212 5H9.45899ZM19.9857 6.77367L9.61737 14.4185L10.7951 19.7182C10.9662 20.4885 11.8634 20.8398 12.5122 20.3907L14.1561 19.2525C15.4589 18.3506 16.4399 17.0566 16.9565 15.5586L19.9857 6.77367ZM7.59133 14.5209L2.82291 10.0931C1.32965 8.70649 1.55041 6.28259 3.26959 5.18856L4.3885 4.47653C5.90387 3.51221 7.66281 3 9.45899 3H20.5194C21.9314 3 22.923 4.39082 22.4627 5.72565L18.8472 16.2106C18.1919 18.111 16.9473 19.7527 15.2946 20.8969L13.6506 22.0351C11.834 23.2927 9.32199 22.3089 8.84269 20.152L7.59133 14.5209Z"]');
 
-      console.log(`Request ${i} → ${shouldStop}`);
+        elements.forEach(element => {
+          element.parentElement.parentElement.click();
+        });
+      } catch (error) { }
 
-      if (shouldStop) {
-        console.log("200 دریافت شد؛ متوقف شد.");
-        return;
-      }
+
 
       await sleep(WAIT_MS);
     }
